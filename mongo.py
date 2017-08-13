@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import logging
 from pprint import pprint
 from config import Config
+from exception import Type,TeleException
 
 LOGGER=logging.getLogger(__name__)
 LOGGER.setLevel(logging.DEBUG)
@@ -41,44 +42,44 @@ class Mongo:
 
 	def insert(self,record,collection=None):
 		if not isinstance(record, list):
-			raise TypeError('record should be list') 
+			raise TeleException(Type.WrongTypeException,'record should be list') 
 		self.getCollection(collection)
 		return self.__collection.insert_many(record).inserted_ids
 
 	def find(self,condition,collection=None):
 		if not isinstance(condition,dict):
-			raise TypeError('condition should be dict type')
+			raise TeleException(Type.WrongTypeException,'condition should be dict type')
 		self.getCollection(collection)
 		return list(self.__collection.find(condition))
 
 	def exist(self,condition,collection=None):
 		if not isinstance(condition,dict):
-			raise TypeError('condition should be dict type')
+			raise TeleException(Type.WrongTypeException,'condition should be dict type')
 		self.getCollection(collection)
 		return True if self.__collection.count(condition)>0 else False 	
 
 	def update(self,condition,update,collection=None):
 		if not isinstance(condition,dict):
-			raise TypeError('condition should be dict')
+			raise TeleException(Type.WrongTypeException,'condition should be dict')
 		if not isinstance(update,dict):
-			raise TypeError('update should be dict')
+			raise TeleException(Type.WrongTypeException,'update should be dict')
 		self.getCollection(collection)
 		return self.__collection.update_many(condition,update)
 
 	def saveUpdate(self,condition,update,collection=None):
 		if not isinstance(condition,dict):
-			raise TypeError('condition should be dict')
+			raise TeleException(Type.WrongTypeException,'condition should be dict')
 		if not isinstance(update,dict):
-			raise TypeError('update should be dict')
+			raise TeleException(Type.WrongTypeException,'update should be dict')
 		self.getCollection(collection)
 		return self.__collection.update_many(condition,update,True)
 
 
 	def saveUpdateOne(self,condition,update,collection=None):
 		if not isinstance(condition,dict):
-			raise TypeError('condition should be dict')
+			raise TeleException(Type.WrongTypeException,'condition should be dict')
 		if not isinstance(update,dict):
-			raise TypeError('update should be dict')
+			raise TeleException(Type.WrongTypeException,'update should be dict')
 		self.getCollection(collection)
 		return self.__collection.update_one(condition,update,True)
 
