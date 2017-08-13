@@ -1,12 +1,8 @@
 #!/usr/bin/python
 from pymongo import MongoClient
-import logging
 from pprint import pprint
 from config import Config
 from exception import Type,TeleException
-
-LOGGER=logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
 
 class Mongo:
 	def __init__(self,config_path=None):
