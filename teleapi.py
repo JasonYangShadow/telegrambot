@@ -34,6 +34,7 @@ class Telegram:
 
 	def messageProcessing(self):
 		def handle(msg):
+			pprint(msg)
 			msg_chat_id=msg['chat']['id']
 			msg_username=msg['chat']['username']
 			msg_body=msg['text']
@@ -44,7 +45,7 @@ class Telegram:
 
 	def sendTextMessage(self,username,msg):
 		user_list=self.__mongo.find({'_id':username})
-		if user_list.size() == 0:
+		if len(user_list) == 0:
 			raise TeleException(Type.NoneException,'No such user!'+username)
 		else:
 			self.__bot.sendMessage(user_list[0]['chat_id'],msg)
@@ -54,5 +55,6 @@ if __name__=="__main__":
 		telebot=Telegram()
 		while True:
 			time.sleep(5)
+			telebot.sendTextMessage('jasonyangshadow','this is a text message and test the connection')
 	except TeleException as te:
 		LOGGER.error(str(te))
