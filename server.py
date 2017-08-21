@@ -9,7 +9,14 @@ from mongo import Mongo
 from exception import Type, TeleException
 
 LOGGER=logging.getLogger(__name__)
-LOGGER.setLevel(logging.DEBUG)
+LOGGER.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh = logging.FileHandler('/tmp/telebot.log')
+fh.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+LOGGER.addHandler(fh)
+LOGGER.addHandler(ch)
 
 class Server:
 	def __init__(self):
