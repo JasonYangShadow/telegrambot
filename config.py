@@ -1,7 +1,5 @@
 #!/usr/bin/python
 import configparser
-from pathlib import Path
-from exception import Type,TeleException
 
 class Config:
 	def __init__(self,config_path='config.ini'):
