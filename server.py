@@ -48,8 +48,9 @@ class Server:
 			msg_body=msg['text']
 			msg_date=msg['date']
 			msg_type=msg['chat']['type']
-			self.__mongo.saveUpdateOne({'chat_user':msg_username},{'$set':{'chat_id':msg_chat_id,'chat_type':msg_type,'chat_date':msg_date}},self.__db_user)
-			self.__bot.sendMessage(msg_chat_id,"I have receieved your message!")
+			if msg_type=='private':
+				self.__mongo.saveUpdateOne({'chat_user':msg_username},{'$set':{'chat_id':msg_chat_id,'chat_type':msg_type,'chat_date':msg_date}},self.__db_user)
+				self.__bot.sendMessage(msg_chat_id,"I have receieved your message!")
 		MessageLoop(self.__bot,handle).run_as_thread()
 
 	def start(self):
@@ -65,7 +66,7 @@ class Server:
 					if len(user_list) == 0:
 						raise TeleException(Type.NoneException,'No such user!'+username)
 					else:
-						self.__bot.sendMessage(user_list[0]['chat_id'],msg['chat_body'])
+						self.__bot.sendMessage(user_list[0]['chat_id'],msg['chat_body'],parse_mode='HTML')
 						idList.append(msg['_id'])
 				self.__mongo.deleteMany(idList,self.__db_msg)
 		except TeleException as te:
